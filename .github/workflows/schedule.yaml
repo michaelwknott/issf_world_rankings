@@ -1,39 +1,30 @@
 name: Schedule ISSF Scraper
-
 on:
   schedule:
     - cron: "50 11 * * 5"
-
 jobs:
   scrape_data:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           persist-credentials: false
           fetch-depth: 0
-
       - name: Set up Python 3.11
         uses: actions/setup-python@v2
         with:
           python-version: "3.11"
-      
       - name: Install dependencies
         run: pip install -r requirements.txt
-      
       - name: Scrape data
         run: python3 scraper.py
-      
       - name: Git commit
         run: |
           git add data
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Commiting data"
-
-      # NOTE: Check that your branch name is correct here
       - name: Git push
         run: |
           git push "https://${GITHUB_ACTOR}:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
