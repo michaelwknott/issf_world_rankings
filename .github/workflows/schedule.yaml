@@ -2,7 +2,7 @@ name: Schedule ISSF Scraper
 
 on:
   schedule:
-    - cron: "40 11 * * 4"
+    - cron: "50 11 * * 5"
 
 jobs:
   scrape_data:
