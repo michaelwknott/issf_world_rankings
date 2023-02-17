@@ -22,7 +22,7 @@ jobs:
         run: python3 scraper.py
       - name: Git commit
         run: |
-          git add data
+          git add .
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Commiting data"
