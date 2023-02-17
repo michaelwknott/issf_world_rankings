@@ -58,7 +58,7 @@ def parse_issf_ranking_html(event_name, bs_response_object):
 
 
 def save_rankings_to_csv(rankings):
-    filepath = pathlib.Path.cwd() / "issf_world_rankings.csv"
+    filepath = pathlib.Path.cwd() / "data/issf_world_rankings.csv"
     with open(filepath, "a", newline="") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=DICT_WRITER_FIELDNAMES)
         for item in rankings:
