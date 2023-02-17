@@ -25,7 +25,8 @@ jobs:
           git add .
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m "Commiting data"
+          timestamp=$(date -u +%F)
+          git commit -m "Latest data: ${timestamp}"
       - name: Git push
         run:
           git push
