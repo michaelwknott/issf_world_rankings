@@ -1,7 +1,8 @@
 import csv
 import pathlib
+import re
 import time
-from datetime import date
+from datetime import datetime, date
 
 from bs4 import BeautifulSoup
 import requests
@@ -13,7 +14,7 @@ EVENTS = [
 ]
 
 DICT_WRITER_FIELDNAMES = [
-    "event", "rank", "rating", "name", "nation", "year_of_birth", "date",
+    "event", "rank", "rating", "name", "nation", "year_of_birth", "date", "version_date",
 ]
 
 
@@ -34,6 +35,11 @@ def get_issf_ranking_html(event):
 def parse_issf_ranking_html(event_name, bs_response_object):
     soup = bs_response_object
 
+    # Parse the date the rankings were last updated
+    version_text = soup.select_one(".versiontext").text
+    version_date_string = re.sub("[^0-9]", "", version_text)
+    version_date = datetime.strptime(version_date_string, "%d%m%Y").date()
+    
     html_tables = soup.find_all("table")
     html_rankings_table = html_tables[0]
     html_rankings_rows = html_rankings_table.find_all("tr")
@@ -51,6 +57,7 @@ def parse_issf_ranking_html(event_name, bs_response_object):
             "nation": nation,
             "year_of_birth": year_of_birth,
             "date": date.today(),
+            "version_date": version_date,
         }
         parsed_rankings.append(individual_rank)
 
